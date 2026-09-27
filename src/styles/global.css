@@ -1,0 +1,65 @@
+:root {
+  --bg-deep: #0d0618;
+  --bg-panel: rgba(26, 11, 46, 0.72);
+  --accent-orange: #ff7a18;
+  --accent-purple: #a855f7;
+  --accent-ghost: #f0e6ff;
+  --accent-mint: #5eead4;
+  --text: #f8f4ff;
+  --muted: #b8a8d4;
+  --border: rgba(255, 122, 24, 0.25);
+  --glow: 0 0 40px rgba(168, 85, 247, 0.35);
+  --radius: 18px;
+  --font-body: 'Outfit', system-ui, sans-serif;
+  --font-display: 'Creepster', cursive;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-body);
+  color: var(--text);
+  background: var(--bg-deep);
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+a {
+  color: var(--accent-mint);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button,
+select {
+  font: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

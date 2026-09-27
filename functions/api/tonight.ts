@@ -8,6 +8,7 @@ export async function onRequestGet({ request }: { request: Request }): Promise<R
       headers: {
         'Content-Type': 'application/json',
         'Cache-Control': 'public, max-age=300',
+        'X-Robots-Tag': 'noindex, nofollow',
       },
     });
   } catch (err) {

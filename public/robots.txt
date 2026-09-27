@@ -1,3 +1,21 @@
-# Private personal dashboard — not intended for public search indexing
+# Private personal dashboard — block crawlers (honour is voluntary; use Cloudflare Access for real privacy)
 User-agent: *
+Disallow: /
+
+User-agent: Googlebot
+Disallow: /
+
+User-agent: Bingbot
+Disallow: /
+
+User-agent: Slurp
+Disallow: /
+
+User-agent: DuckDuckBot
+Disallow: /
+
+User-agent: facebot
+Disallow: /
+
+User-agent: Twitterbot
 Disallow: /

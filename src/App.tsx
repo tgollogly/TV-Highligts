@@ -6,7 +6,8 @@ import { HeroCarousel } from './components/HeroCarousel';
 import { LegalFooter } from './components/LegalFooter';
 import { McpReverserPanel } from './components/McpReverserPanel';
 import { ShowCard } from './components/ShowCard';
-import { REGIONS, SITE, type RegionId } from './config';
+import { OnDemandSection } from './components/OnDemandSection';
+import { DEFAULT_REGION, REGIONS, SITE, type RegionId } from './config';
 import { useTonight } from './hooks/useTonight';
 import './styles/app.css';
 
@@ -15,7 +16,7 @@ const REGION_KEY = 'tvzen-region';
 export default function App() {
   const [region, setRegion] = useState<RegionId>(() => {
     const saved = localStorage.getItem(REGION_KEY) as RegionId | null;
-    return saved && REGIONS.some((r) => r.id === saved) ? saved : 'london';
+    return saved && REGIONS.some((r) => r.id === saved) ? saved : DEFAULT_REGION;
   });
   const [latency, setLatency] = useState<number | null>(null);
   const { data, loading, error, reload } = useTonight(region);
@@ -71,9 +72,11 @@ export default function App() {
               <h2>Tonight on free-to-air & LG Smart TV</h2>
               <p>
                 Prime-time rankings for <strong>{data.region}</strong> ({new Date(data.primeWindow.from).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })}).
-                Prioritising <em>Coronation Street</em>, <em>Emmerdale</em>, <em>Midsomer Murders</em>, mystery thrillers on BBC & ITV, and Stormont coverage.
+                Prioritising <em>on-demand</em> on BBC iPlayer &amp; ITVX, <em>Coronation Street</em>, <em>Emmerdale</em>, <em>Midsomer Murders</em>, mystery thrillers, and Stormont coverage.
               </p>
             </section>
+
+            <OnDemandSection data={data} />
 
             <div className="grid-top">
               <HeroCarousel shows={data.carousel} />
@@ -110,11 +113,11 @@ export default function App() {
 
             <section className="panel section">
               <header className="section-head">
-                <h2>Mystery & thriller lane</h2>
-                <p>BBC / ITV linear picks (check iPlayer & ITVX for full libraries)</p>
+                <h2>Mystery &amp; thriller lane — linear TV</h2>
+                <p>Tonight on BBC, UTV &amp; ITV — pair with the on-demand section above</p>
               </header>
               <div className="card-grid">
-                {(data.mysteryThrillers.length ? data.mysteryThrillers : data.rankings.filter((s) => s.tags.includes('mystery'))).slice(0, 8).map((s) => (
+                {(data.mysteryThrillers.length ? data.mysteryThrillers : data.rankings.filter((s) => s.tags.includes('mystery') || s.tags.includes('thriller'))).slice(0, 12).map((s) => (
                   <ShowCard key={s.id} show={s} compact />
                 ))}
               </div>

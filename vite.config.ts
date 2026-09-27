@@ -28,6 +28,7 @@ function epgApiPlugin() {
 }
 
 export default defineConfig({
+  base: '/',
   plugins: [react(), epgApiPlugin()],
   build: {
     target: 'es2022',

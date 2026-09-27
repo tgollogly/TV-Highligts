@@ -20,9 +20,13 @@ export function LegalFooter({ payload }: Props) {
           Data: <a href={s.url} rel="noopener noreferrer">{s.name}</a> — {s.license}
         </p>
       ))}
-      <p className="copyright">
+        <p>
+          Licensed under <a href="https://github.com/tgollogly/TV-Highligts/blob/main/LICENSE">MIT</a> — see also{' '}
+          <a href="https://github.com/tgollogly/TV-Highligts/blob/main/LEGAL.md">LEGAL.md</a>.
+        </p>
+        <p className="copyright">
         © {SITE.year} {SITE.owner}. All original UI design and code. Programme metadata remains property of respective
-        rights holders.
+        rights holders. Live site: <a href={SITE.url}>{SITE.url}</a>
       </p>
     </footer>
   );

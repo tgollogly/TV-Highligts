@@ -8,7 +8,8 @@
     "build": "tsx scripts/fetch-epg.ts && tsc -b && vite build",
     "preview": "vite preview",
     "fetch-epg": "tsx scripts/fetch-epg.ts",
-    "lint": "tsc -b --noEmit"
+    "lint": "tsc -b --noEmit",
+    "deploy:cloudflare": "npm run build && wrangler pages deploy dist --project-name=${CF_PAGES_PROJECT:-ni-tonight}"
   },
   "dependencies": {
     "fast-xml-parser": "^5.0.9",
@@ -23,6 +24,7 @@
     "@vitejs/plugin-react": "^4.3.4",
     "tsx": "^4.19.3",
     "typescript": "^5.8.2",
-    "vite": "^6.2.3"
+    "vite": "^6.2.3",
+    "wrangler": "^4.142.0"
   }
 }

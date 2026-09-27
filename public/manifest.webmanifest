@@ -1,0 +1,24 @@
+{
+  "name": "Tonight — NI TV & On Demand",
+  "short_name": "Tonight",
+  "description": "Personal UK TV dashboard for Northern Ireland — linear rankings and iPlayer/ITVX on-demand picks.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d0618",
+  "theme_color": "#1a0b2e",
+  "lang": "en-GB",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/og-share.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

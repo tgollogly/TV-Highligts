@@ -19,7 +19,7 @@ export default function App() {
     return saved && REGIONS.some((r) => r.id === saved) ? saved : DEFAULT_REGION;
   });
   const [latency, setLatency] = useState<number | null>(null);
-  const { data, loading, error, reload } = useTonight(region);
+  const { data, loading, error, reload, source } = useTonight(region);
 
   useEffect(() => {
     localStorage.setItem(REGION_KEY, region);
@@ -55,6 +55,12 @@ export default function App() {
           <button type="button" className="ghost-btn" onClick={() => void reload()} disabled={loading}>
             Refresh
           </button>
+          {data && (
+            <p className="refresh-hint" title="Auto-refreshes every 15 minutes">
+              {source === 'live' ? 'Live EPG' : 'Cached'} · updated{' '}
+              {new Date(data.generatedAt).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}
+            </p>
+          )}
         </div>
       </header>
 

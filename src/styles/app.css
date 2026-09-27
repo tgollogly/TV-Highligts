@@ -76,6 +76,15 @@
   display: flex;
   gap: 0.75rem;
   align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.refresh-hint {
+  margin: 0;
+  font-size: 0.72rem;
+  color: var(--muted);
+  width: 100%;
+  text-align: right;
 }
 
 .region-select {

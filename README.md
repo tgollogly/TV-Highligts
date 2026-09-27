@@ -31,10 +31,10 @@
 | **Share image** | [og-share.png](https://tvzen.tgollogly.dev/og-share.png) |
 | **Add to iPhone Home Screen** | Open the site in Safari → Share → **Add to Home Screen** (uses `apple-touch-icon` + PWA manifest) |
 
-> **DNS (one-time):** In Cloudflare (or your DNS host) for `tgollogly.dev`, add  
-> `CNAME` **`tvzen`** → **`tgollogly.github.io`** (DNS only / grey cloud is fine).  
-> Then enable **GitHub Pages** for this repo (Settings → Pages → GitHub Actions).  
-> See [docs/DNS.md](docs/DNS.md) for full steps.
+> **Hosting:** Cloudflare Pages on **your** account only — **not** GitHub Pages.  
+> Deploy: `npm run build && npm run deploy:cloudflare`  
+> Full guide: **[docs/CLOUDFLARE.md](docs/CLOUDFLARE.md)** · DNS: **[docs/DNS.md](docs/DNS.md)**  
+> **Private:** use [Cloudflare Access](https://developers.cloudflare.com/cloudflare-one/policies/access/) on `tvzen.tgollogly.dev`.
 
 ---
 
@@ -64,6 +64,16 @@ Open the URL Vite prints (usually `http://localhost:5173`).
 ```bash
 npm run build && npm run preview
 ```
+
+### Deploy to Cloudflare (private subdomain)
+
+```bash
+npx wrangler login
+npm run deploy:cloudflare
+```
+
+Then attach **`tvzen.tgollogly.dev`** in the Pages project → Custom domains.  
+Disable **GitHub Pages** on this repo if it was ever turned on.
 
 ---
 

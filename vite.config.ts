@@ -1,9 +1,14 @@
 import react from '@vitejs/plugin-react';
-import { copyFileSync } from 'node:fs';
+import { copyFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { defineConfig } from 'vite';
 import { getTonightPayload } from './server/epgService';
+
+function siteHomeUrl(): string {
+  const raw = process.env.VITE_SITE_URL ?? 'https://tonight.tgollogly.dev';
+  return raw.endsWith('/') ? raw : `${raw}/`;
+}
 
 function epgApiPlugin() {
   return {
@@ -37,14 +42,62 @@ export default defineConfig({
     {
       name: 'html-site-url',
       transformIndexHtml(html) {
-        const siteUrl = process.env.VITE_SITE_URL ?? 'https://tonight.tgollogly.dev';
-        return html.replaceAll('https://tonight.tgollogly.dev', siteUrl.replace(/\/$/, ''));
+        const home = siteHomeUrl();
+        const siteOrigin = home.replace(/\/$/, '');
+        let out = html.replaceAll('https://tonight.tgollogly.dev', siteOrigin);
+        out = out.replace(
+          '<head>',
+          `<head>
+    <script>
+      (function () {
+        var home = ${JSON.stringify(home)};
+        var path = ${JSON.stringify(process.env.VITE_BASE_PATH ?? '/')};
+        if (location.hostname === 'tgollogly.github.io' && path !== '/' && !location.pathname.startsWith(path)) {
+          location.replace(home);
+        }
+      })();
+    </script>`,
+        );
+        out = out.replace(
+          'href="apple-touch-icon.png"',
+          `href="${home}apple-touch-icon.png"`,
+        );
+        return out;
       },
     },
     {
-      name: 'github-pages-spa-fallback',
+      name: 'pwa-manifest-absolute',
       closeBundle() {
         const outDir = join(process.cwd(), 'dist');
+        const home = siteHomeUrl();
+        const manifest = {
+          id: home,
+          name: 'Tonight — NI TV & On Demand',
+          short_name: 'Tonight',
+          description:
+            'Personal UK TV dashboard for Northern Ireland — linear rankings and iPlayer/ITVX on-demand picks.',
+          start_url: `${home}?source=homescreen`,
+          scope: home,
+          display: 'standalone',
+          background_color: '#0d0618',
+          theme_color: '#1a0b2e',
+          lang: 'en-GB',
+          icons: [
+            {
+              src: `${home}apple-touch-icon.png`,
+              sizes: '512x512',
+              type: 'image/png',
+              purpose: 'any maskable',
+            },
+            {
+              src: `${home}og-share.png`,
+              sizes: '1200x630',
+              type: 'image/png',
+              purpose: 'any',
+            },
+          ],
+        };
+        writeFileSync(join(outDir, 'manifest.webmanifest'), `${JSON.stringify(manifest, null, 2)}\n`);
         copyFileSync(join(outDir, 'index.html'), join(outDir, '404.html'));
       },
     },

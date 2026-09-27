@@ -22,7 +22,14 @@ Workflows use **Node 22** for builds and pin current action majors (`checkout@v7
 The PWA manifest uses **relative** `start_url` (`./`) so the icon opens  
 `https://tgollogly.github.io/TV-Highligts/` (not the site root, which 404s).
 
-If you added the icon before this fix, **remove it** and add again after the latest deploy.
+If you added the icon before this fix:
+
+1. **Remove** the Home Screen icon  
+2. Safari → **Settings** (or iOS Settings → Safari) → **Advanced** → **Website Data** → remove **github.io**  
+3. Open **https://tgollogly.github.io/TV-Highligts/** in Safari (note trailing slash)  
+4. **Share → Add to Home Screen** again  
+
+The manifest now uses a **full URL** start link (iOS often breaks relative `./` paths and opens `github.io/` → 404).
 
 ## Privacy
 

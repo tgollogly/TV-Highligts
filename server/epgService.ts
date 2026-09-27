@@ -1,4 +1,5 @@
 import { XMLParser } from 'fast-xml-parser';
+import { getNiOnDemandPayload } from './onDemandNi';
 
 const EPG_URL = 'https://raw.githubusercontent.com/dp247/Freeview-EPG/master/epg.xml';
 
@@ -27,6 +28,7 @@ export type TonightPayload = {
   scheduleByChannel: Record<string, TvShow[]>;
   stormont: TvShow[];
   mysteryThrillers: TvShow[];
+  onDemand: ReturnType<typeof getNiOnDemandPayload>;
   sources: { name: string; url: string; license: string }[];
   compliance: {
     dataRetentionHours: number;
@@ -65,6 +67,15 @@ const WATCHLIST_TITLES = [
   'line of duty',
   'silent witness',
   'unforgotten',
+  'death in paradise',
+  'father brown',
+  'endeavour',
+  'lewis',
+  'morse',
+  'grantchester',
+  'the capture',
+  'the responder',
+  'blue lights',
   'the view from stormont',
   'stormont',
   'executive office questions',
@@ -83,6 +94,10 @@ const MYSTERY_KEYWORDS = [
   'whodunit',
   'investigation',
   'noir',
+  'thriller',
+  'psychological',
+  'forensic',
+  'cold case',
 ];
 
 let cache: { fetchedAt: number; xml: string } | null = null;
@@ -123,6 +138,15 @@ function parseXmltvTime(raw: string): Date {
   return new Date(`${y}-${mo}-${d}T${h}:${mi}:${s}`);
 }
 
+function isBroadcastDay(start: Date, end: Date, day: Date): boolean {
+  const startDay = new Date(day);
+  startDay.setHours(6, 0, 0, 0);
+  const endDay = new Date(day);
+  endDay.setDate(endDay.getDate() + 1);
+  endDay.setHours(6, 0, 0, 0);
+  return start < endDay && end > startDay;
+}
+
 function isTonight(start: Date, end: Date, night: Date): boolean {
   const evening = new Date(night);
   evening.setHours(17, 0, 0, 0);
@@ -150,7 +174,9 @@ function scoreShow(title: string, desc: string, start: Date): { score: number; t
   for (const k of MYSTERY_KEYWORDS) {
     if (hay.includes(k)) {
       score += 12;
-      if (!tags.includes('mystery')) tags.push('mystery');
+      if (k === 'thriller' || k === 'suspense') {
+        if (!tags.includes('thriller')) tags.push('thriller');
+      } else if (!tags.includes('mystery')) tags.push('mystery');
     }
   }
 
@@ -195,19 +221,18 @@ export async function getTonightPayload(regionKey: string): Promise<TonightPaylo
   tonight.setHours(0, 0, 0, 0);
 
   const shows: TvShow[] = [];
+  const dayShows: TvShow[] = [];
 
   for (const p of doc.tv.programme ?? []) {
     if (!channelIds.has(p['@_channel'])) continue;
     const start = parseXmltvTime(p['@_start']);
     const stop = parseXmltvTime(p['@_stop']);
-    if (!isTonight(start, stop, tonight)) continue;
-
     const title = textField(p.title);
     const description = textField(p.desc);
     const meta = scoreShow(title, description, start);
     const ch = channelMap.get(p['@_channel']);
 
-    shows.push({
+    const row: TvShow = {
       id: `${p['@_channel']}-${p['@_start']}`,
       title,
       description: description.slice(0, 280),
@@ -220,7 +245,11 @@ export async function getTonightPayload(regionKey: string): Promise<TonightPaylo
       score: meta.score,
       tags: meta.tags,
       isWatchlist: meta.isWatchlist,
-    });
+    };
+
+    if (isBroadcastDay(start, stop, tonight)) dayShows.push(row);
+    if (!isTonight(start, stop, tonight)) continue;
+    shows.push(row);
   }
 
   shows.sort((a, b) => b.score - a.score || new Date(a.start).getTime() - new Date(b.start).getTime());
@@ -235,7 +264,9 @@ export async function getTonightPayload(regionKey: string): Promise<TonightPaylo
 
   const watchlist = shows.filter((s) => s.isWatchlist || s.tags.includes('watchlist'));
   const stormont = shows.filter((s) => s.tags.includes('stormont') || /stormont/i.test(`${s.title} ${s.description}`));
-  const mysteryThrillers = shows.filter((s) => s.tags.includes('mystery') && s.score >= 50);
+  const mysteryThrillers = shows
+    .filter((s) => (s.tags.includes('mystery') || s.tags.includes('thriller') || s.tags.includes('drama')) && s.score >= 42)
+    .sort((a, b) => b.score - a.score);
 
   const evening = new Date(tonight);
   evening.setHours(17, 0, 0, 0);
@@ -252,7 +283,8 @@ export async function getTonightPayload(regionKey: string): Promise<TonightPaylo
     watchlist,
     scheduleByChannel,
     stormont,
-    mysteryThrillers: mysteryThrillers.slice(0, 12),
+    mysteryThrillers: mysteryThrillers.slice(0, 16),
+    onDemand: getNiOnDemandPayload(regionKey === 'ni' ? dayShows : shows, regionKey),
     sources: [
       {
         name: 'Freeview-EPG (dp247)',

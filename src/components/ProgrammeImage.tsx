@@ -2,26 +2,38 @@ import { useState } from 'react';
 
 type Props = {
   src?: string;
+  fallbackSrc?: string;
   alt?: string;
   className?: string;
+  title?: string;
 };
 
-export function ProgrammeImage({ src, alt = '', className }: Props) {
-  const [failed, setFailed] = useState(false);
+export function ProgrammeImage({ src, fallbackSrc, alt = '', className, title }: Props) {
+  const [stage, setStage] = useState<'primary' | 'fallback' | 'none'>('primary');
 
-  if (!src || failed) {
-    return <div className={`programme-image-fallback ${className ?? ''}`} aria-hidden />;
+  const activeSrc =
+    stage === 'primary' ? src : stage === 'fallback' ? fallbackSrc : undefined;
+
+  if (!activeSrc || stage === 'none') {
+    return (
+      <div className={`programme-image-fallback ${className ?? ''}`} aria-hidden>
+        {title ? <span className="programme-image-initial">{title.charAt(0)}</span> : null}
+      </div>
+    );
   }
 
   return (
     <img
-      src={src}
+      src={activeSrc}
       alt={alt}
       className={className}
       loading="lazy"
       decoding="async"
       referrerPolicy="no-referrer"
-      onError={() => setFailed(true)}
+      onError={() => {
+        if (stage === 'primary' && fallbackSrc) setStage('fallback');
+        else setStage('none');
+      }}
     />
   );
 }

@@ -66,7 +66,12 @@ export function HeroCarousel({ shows }: Props) {
             </div>
           </div>
           <div className="hero-art">
-            <ProgrammeImage src={show.image} className="hero-art-img" />
+            <ProgrammeImage
+              src={show.image}
+              fallbackSrc={show.channelLogo}
+              title={show.title}
+              className="hero-art-img"
+            />
           </div>
         </motion.div>
       </AnimatePresence>

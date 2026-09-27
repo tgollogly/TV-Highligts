@@ -176,15 +176,46 @@ export function buildOnDemandFromLinear(shows: TvShow[], regionKey: string): OnD
   return picks.slice(0, 16);
 }
 
+function enrichCuratedImages(curated: OnDemandPick[], linearShows: TvShow[]): OnDemandPick[] {
+  const byTitle = new Map<string, TvShow>();
+  for (const s of linearShows) {
+    const key = s.title.toLowerCase();
+    if (!byTitle.has(key) || (s.image && !byTitle.get(key)?.image)) byTitle.set(key, s);
+    for (const word of key.split(/\s+/)) {
+      if (word.length > 4 && s.image) byTitle.set(word, s);
+    }
+  }
+  return curated.map((pick) => {
+    if (pick.image) return pick;
+    const exact = byTitle.get(pick.title.toLowerCase());
+    if (exact?.image) return { ...pick, image: exact.image };
+    const partial = linearShows.find(
+      (s) => s.image && pick.title.toLowerCase().includes(s.title.toLowerCase().split(' ')[0]),
+    );
+    return partial?.image ? { ...pick, image: partial.image } : pick;
+  });
+}
+
+const PLATFORM_ART: Record<OnDemandPick['platform'], string> = {
+  'BBC iPlayer': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/BBC_iPlayer_logo.svg/320px-BBC_iPlayer_logo.svg.png',
+  ITVX: 'https://upload.wikimedia.org/wikipedia/en/thumb/0/06/ITVX_logo.svg/320px-ITVX_logo.svg.png',
+  'Channel 4': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Channel_4_logo_2015.svg/320px-Channel_4_logo_2015.svg.png',
+  My5: 'https://upload.wikimedia.org/wikipedia/en/thumb/1/1e/Channel_5_%28UK%29_logo.svg/320px-Channel_5_%28UK%29_logo.svg.png',
+};
+
 export function getNiOnDemandPayload(linearShows: TvShow[], regionKey: string) {
   const fromLinear = buildOnDemandFromLinear(linearShows, regionKey);
-  const mysteryThrillers = [...CURATED_MYSTERY, ...fromLinear.filter((p) => p.tags.includes('mystery'))].slice(0, 20);
+  const curated = enrichCuratedImages(CURATED_MYSTERY, linearShows).map((p) => ({
+    ...p,
+    image: p.image ?? PLATFORM_ART[p.platform],
+  }));
+  const mysteryThrillers = [...curated, ...fromLinear.filter((p) => p.tags.includes('mystery'))].slice(0, 20);
   const soapsAndNi = fromLinear.filter((p) => p.tags.includes('soap') || p.tags.includes('stormont'));
 
   return {
     region: 'Northern Ireland',
     hubs: regionKey === 'ni' ? NI_HUBS : [],
-    curatedMystery: regionKey === 'ni' ? CURATED_MYSTERY : [],
+    curatedMystery: regionKey === 'ni' ? curated : [],
     fromTonightLinear: fromLinear,
     mysteryOnDemand: mysteryThrillers,
     niSoapsAndPolitics: soapsAndNi,

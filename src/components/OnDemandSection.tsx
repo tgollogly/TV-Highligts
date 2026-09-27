@@ -15,7 +15,7 @@ function PickCard({ pick }: { pick: OnDemandPick }) {
       whileHover={{ y: -3 }}
     >
       <div className="ondemand-media">
-        <ProgrammeImage src={pick.image} className="ondemand-img" />
+        <ProgrammeImage src={pick.image} title={pick.title} className="ondemand-img" />
         <span className="platform-pill">{pick.platform}</span>
       </div>
       <div>

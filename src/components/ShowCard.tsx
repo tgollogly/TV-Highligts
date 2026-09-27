@@ -21,7 +21,12 @@ export function ShowCard({ show, rank, compact }: Props) {
       transition={{ type: 'spring', stiffness: 320, damping: 24 }}
     >
       <div className="show-card-media">
-        <ProgrammeImage src={show.image} className="show-card-img" />
+        <ProgrammeImage
+          src={show.image}
+          fallbackSrc={show.channelLogo}
+          title={show.title}
+          className="show-card-img"
+        />
         {rank != null && <span className="show-rank">#{rank}</span>}
         <span className="show-score">{show.score}</span>
       </div>

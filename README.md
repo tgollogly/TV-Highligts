@@ -1,40 +1,46 @@
 <p align="center">
-  <img src="docs/hero.png" alt="TV Zen — Northern Ireland tonight and on-demand dashboard" width="720" />
+  <img src="docs/hero.png" alt="Tonight — Northern Ireland TV dashboard" width="720" />
 </p>
 
-<h1 align="center">TV Zen</h1>
+<h1 align="center">Tonight <sub style="font-size:0.45em;color:#b8a8d4">(TV Zen)</sub></h1>
 
 <p align="center">
-  <strong>Personal UK TV dashboard</strong> — Northern Ireland first · linear tonight · BBC iPlayer &amp; ITVX on-demand · Halloween fluid UI
+  <strong>Private NI TV dashboard</strong> — linear tonight · BBC iPlayer &amp; ITVX on-demand · mystery &amp; soaps
 </p>
 
 <p align="center">
-  <a href="https://tvzen.tgollogly.dev"><img src="https://img.shields.io/badge/🌐_Live-tvzen.tgollogly.dev-ff7a18?style=for-the-badge" alt="Live site" /></a>
+  <a href="https://tonight.tgollogly.dev"><img src="https://img.shields.io/badge/🌐_Private-tonight.tgollogly.dev-ff7a18?style=for-the-badge" alt="Subdomain" /></a>
+  <img src="https://img.shields.io/github/actions/workflow/status/tgollogly/TV-Highligts/ci.yml?branch=main&style=for-the-badge&label=CI" alt="CI" />
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-a855f7?style=for-the-badge" alt="MIT License" /></a>
-  <img src="https://img.shields.io/badge/Region-Northern_Ireland-5eead4?style=for-the-badge" alt="NI focus" />
-  <img src="https://img.shields.io/badge/PWA-iPhone_&_LG-1a0b2e?style=for-the-badge" alt="PWA" />
+  <img src="https://img.shields.io/badge/Host-Cloudflare_Pages-f38020?style=for-the-badge" alt="Cloudflare" />
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/EPG-Freeview--EPG-0ea5e9" alt="EPG source" />
-  <img src="https://img.shields.io/badge/On_demand-BBC_iPlayer_·_ITVX-f97316" alt="On demand" />
+  <img src="https://img.shields.io/badge/Region-Northern_Ireland-5eead4" alt="NI" />
+  <img src="https://img.shields.io/badge/EPG-Freeview--EPG-0ea5e9" alt="EPG" />
   <img src="https://img.shields.io/badge/©-Thomas_Gollogly-8b5cf6" alt="Copyright" />
 </p>
 
 ---
 
-## Live URL
+## Subdomain: `tonight.tgollogly.dev`
+
+| Why this name | |
+|---------------|---|
+| **Short** | Easy to type on iPhone / LG TV browser |
+| **Clear** | “What’s on **tonight**” — matches the product |
+| **Professional** | Reads like a personal service, not a dev experiment |
+| **Private** | Cloudflare-only; protect with **Access** (not GitHub Pages) |
+
+Canonical config: [`site.config.json`](site.config.json) · Cloudflare project: **`ni-tonight`**
 
 | | |
 |---|---|
-| **Production** | **[https://tvzen.tgollogly.dev](https://tvzen.tgollogly.dev)** |
-| **Share image** | [og-share.png](https://tvzen.tgollogly.dev/og-share.png) |
-| **Add to iPhone Home Screen** | Open the site in Safari → Share → **Add to Home Screen** (uses `apple-touch-icon` + PWA manifest) |
+| **URL** | **https://tonight.tgollogly.dev** |
+| **Share image** | https://tonight.tgollogly.dev/og-share.png |
+| **iPhone** | Safari → Share → **Add to Home Screen** (icon: “Tonight”) |
 
-> **Hosting:** Cloudflare Pages on **your** account only — **not** GitHub Pages.  
-> Deploy: `npm run build && npm run deploy:cloudflare`  
-> Full guide: **[docs/CLOUDFLARE.md](docs/CLOUDFLARE.md)** · DNS: **[docs/DNS.md](docs/DNS.md)**  
-> **Private:** use [Cloudflare Access](https://developers.cloudflare.com/cloudflare-one/policies/access/) on `tvzen.tgollogly.dev`.
+Deploy: **[docs/CLOUDFLARE.md](docs/CLOUDFLARE.md)** · DNS: **[docs/DNS.md](docs/DNS.md)**
 
 ---
 
@@ -42,74 +48,56 @@
 
 | Area | What you get |
 |------|----------------|
-| **Northern Ireland** | Default region — BBC One NI, UTV, Stormont & politics |
-| **On demand** | Curated BBC iPlayer & ITVX hubs + deep links for mystery, thriller, soaps |
-| **Linear tonight** | Rankings, carousel, channel timelines (Freeview-EPG) |
-| **Watchlist** | Coronation Street, Emmerdale, Midsomer Murders, Vera, Shetland, Line of Duty, … |
-| **MCP Reverser panel** | Design-team guardrails (cookies, attribution, rate limits) |
-| **Share & PWA** | Open Graph / Twitter cards, manifest, iPhone home-screen icon |
+| **Northern Ireland** | Default region — BBC One NI, UTV, Stormont |
+| **On demand** | BBC iPlayer & ITVX hubs + mystery/thriller deep links |
+| **Linear tonight** | Rankings, carousel, channel timelines |
+| **Watchlist** | Corrie, Emmerdale, Midsomer, Vera, Shetland, Line of Duty, … |
+| **Compliance** | Cookie notice, MIT license, LEGAL.md |
 
 ---
 
-## Quick start (local)
+## Quick start
 
 ```bash
-npm install
+npm ci
 cp .env.example .env
 npm run dev
 ```
-
-Open the URL Vite prints (usually `http://localhost:5173`).
 
 ```bash
 npm run build && npm run preview
 ```
 
-### Deploy to Cloudflare (private subdomain)
+### Cloudflare deploy
 
 ```bash
 npx wrangler login
 npm run deploy:cloudflare
 ```
 
-Then attach **`tvzen.tgollogly.dev`** in the Pages project → Custom domains.  
-Disable **GitHub Pages** on this repo if it was ever turned on.
+Pages → project **`ni-tonight`** → custom domain **`tonight.tgollogly.dev`**.
 
 ---
 
 ## Configuration
 
-| Variable | Purpose |
+| Variable | Default |
 |----------|---------|
-| `VITE_OWNER_NAME` | Copyright name (default: **Thomas Gollogly**) |
-| `VITE_SITE_URL` | Canonical URL for meta tags (default: **https://tvzen.tgollogly.dev**) |
-
----
-
-## Data sources (free)
-
-- [Freeview-EPG](https://github.com/dp247/Freeview-EPG) — UK XMLTV listings (personal use; community maintained)
-- On-demand links — official **BBC iPlayer**, **ITVX**, **Channel 4** search/category URLs (no private APIs)
+| `VITE_OWNER_NAME` | Thomas Gollogly |
+| `VITE_SITE_URL` | https://tonight.tgollogly.dev |
+| `CF_PAGES_PROJECT` | ni-tonight |
 
 ---
 
 ## Legal
 
-| Document | Summary |
-|----------|---------|
-| **[LICENSE](LICENSE)** | MIT — Copyright © 2026 **Thomas Gollogly** |
-| **[LEGAL.md](LEGAL.md)** | Not affiliated with BBC, ITV, LG, etc.; personal dashboard; no warranty |
-
-Programme titles, images, and metadata belong to their respective rights holders.
-
----
-
-## Stack
-
-Vite · React 19 · TypeScript · Framer Motion · static EPG bundle at build time
+| Document | |
+|----------|---|
+| [LICENSE](LICENSE) | MIT © 2026 **Thomas Gollogly** |
+| [LEGAL.md](LEGAL.md) | Personal dashboard; not affiliated with broadcasters |
 
 ---
 
 <p align="center">
-  <sub>Built by <strong>Thomas Gollogly</strong> · <a href="https://tgollogly.dev">tgollogly.dev</a></sub>
+  <sub>Thomas Gollogly · <a href="https://tgollogly.dev">tgollogly.dev</a></sub>
 </p>

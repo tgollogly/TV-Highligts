@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "fetch-epg": "tsx scripts/fetch-epg.ts",
     "lint": "tsc -b --noEmit",
-    "deploy:cloudflare": "npm run build && wrangler pages deploy dist --project-name=${CF_PAGES_PROJECT:-tvzen}"
+    "deploy:cloudflare": "npm run build && wrangler pages deploy dist --project-name=${CF_PAGES_PROJECT:-ni-tonight}"
   },
   "dependencies": {
     "fast-xml-parser": "^5.0.9",
@@ -25,6 +25,6 @@
     "tsx": "^4.19.3",
     "typescript": "^5.8.2",
     "vite": "^6.2.3",
-    "wrangler": "^4.40.0"
+    "wrangler": "^4.142.0"
   }
 }

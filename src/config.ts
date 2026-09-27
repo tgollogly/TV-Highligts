@@ -2,7 +2,7 @@ export const SITE = {
   name: 'TV Zen',
   tagline: 'Northern Ireland tonight · on-demand & free-to-air rankings',
   owner: import.meta.env.VITE_OWNER_NAME ?? 'Thomas Gollogly',
-  url: import.meta.env.VITE_SITE_URL ?? 'https://tvzen.tgollogly.dev',
+  url: import.meta.env.VITE_SITE_URL ?? 'https://tonight.tgollogly.dev',
   year: new Date().getFullYear(),
 };
 

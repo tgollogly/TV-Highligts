@@ -1,23 +1,11 @@
-# DNS — Cloudflare subdomain only
+# DNS — `tonight.tgollogly.dev`
 
-GitHub Pages is **not** used for TV Zen.
+Hosting is **Cloudflare Pages only** (project `ni-tonight`).
 
-## Subdomain on Cloudflare
+1. Deploy with [CLOUDFLARE.md](./CLOUDFLARE.md).
+2. Add custom domain **`tonight.tgollogly.dev`** in the Pages project.
+3. Confirm the `tonight` record points to your Pages deployment (automatic when the zone is on Cloudflare).
 
-1. Ensure **`tgollogly.dev`** is a zone on Cloudflare.
-2. Deploy the app with [CLOUDFLARE.md](./CLOUDFLARE.md) (`wrangler pages deploy`).
-3. In the Pages project, add custom domain **`tvzen.tgollogly.dev`**.
+**Do not** point this subdomain at `github.io`.
 
-Cloudflare will attach the correct DNS record to your Pages project.
-
-## Different subdomain?
-
-Use e.g. `watch.tgollogly.dev`:
-
-1. Add that custom domain in the Pages project.
-2. Set `VITE_SITE_URL` in `.env` to match.
-3. Update `index.html` `og:url` / `og:image` if you hard-coded the old host (or rely on env at build time).
-
-## Privacy
-
-Use **Cloudflare Access** on the subdomain so only you can open the site. See [CLOUDFLARE.md](./CLOUDFLARE.md).
+Protect with **Cloudflare Access** for a private personal dashboard.

@@ -1,6 +1,6 @@
 {
-  "name": "TV Zen — NI Tonight & On Demand",
-  "short_name": "TV Zen",
+  "name": "Tonight — NI TV & On Demand",
+  "short_name": "Tonight",
   "description": "Personal UK TV dashboard for Northern Ireland — linear rankings and iPlayer/ITVX on-demand picks.",
   "start_url": "/",
   "display": "standalone",

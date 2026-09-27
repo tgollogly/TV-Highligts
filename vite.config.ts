@@ -1,4 +1,6 @@
 import react from '@vitejs/plugin-react';
+import { copyFileSync } from 'node:fs';
+import { join } from 'node:path';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { defineConfig } from 'vite';
 import { getTonightPayload } from './server/epgService';
@@ -37,6 +39,13 @@ export default defineConfig({
       transformIndexHtml(html) {
         const siteUrl = process.env.VITE_SITE_URL ?? 'https://tonight.tgollogly.dev';
         return html.replaceAll('https://tonight.tgollogly.dev', siteUrl.replace(/\/$/, ''));
+      },
+    },
+    {
+      name: 'github-pages-spa-fallback',
+      closeBundle() {
+        const outDir = join(process.cwd(), 'dist');
+        copyFileSync(join(outDir, 'index.html'), join(outDir, '404.html'));
       },
     },
   ],

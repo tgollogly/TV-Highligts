@@ -2,6 +2,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { getTonightPayload } from '../server/epgService';
+import { prunePayloadImages } from './prune-images';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const outDir = join(root, '..', 'public', 'data');
@@ -16,7 +17,7 @@ async function main() {
   };
 
   for (const region of regions) {
-    const payload = await getTonightPayload(region);
+    const payload = await prunePayloadImages(await getTonightPayload(region));
     (bundle.regions as Record<string, unknown>)[region] = payload;
     console.log(`Built ${region}: ${payload.rankings.length} ranked shows`);
   }

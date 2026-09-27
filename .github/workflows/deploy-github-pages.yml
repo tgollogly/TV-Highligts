@@ -32,6 +32,7 @@ jobs:
           VITE_BASE_PATH: /TV-Highligts/
           VITE_SITE_URL: https://tgollogly.github.io/TV-Highligts/
           VITE_OWNER_NAME: Thomas Gollogly
+          VITE_STATIC_ONLY: true
       - uses: actions/upload-pages-artifact@v5
         with:
           path: dist

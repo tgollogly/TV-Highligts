@@ -82,12 +82,12 @@ export default function App() {
               </p>
             </section>
 
-            <OnDemandSection data={data} />
-
             <div className="grid-top">
               <HeroCarousel shows={data.carousel} />
               <McpReverserPanel payload={data} apiLatencyMs={latency} />
             </div>
+
+            <OnDemandSection data={data} />
 
             <section className="panel section">
               <header className="section-head">

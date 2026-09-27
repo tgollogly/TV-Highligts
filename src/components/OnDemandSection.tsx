@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import type { TonightPayload } from '../../server/epgService';
 import type { OnDemandPick } from '../../server/onDemandNi';
+import { ProgrammeImage } from './ProgrammeImage';
 
 type Props = { data: TonightPayload };
 
@@ -14,7 +15,7 @@ function PickCard({ pick }: { pick: OnDemandPick }) {
       whileHover={{ y: -3 }}
     >
       <div className="ondemand-media">
-        {pick.image ? <img src={pick.image} alt="" loading="lazy" /> : <div className="ondemand-fallback" />}
+        <ProgrammeImage src={pick.image} className="ondemand-img" />
         <span className="platform-pill">{pick.platform}</span>
       </div>
       <div>

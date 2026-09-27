@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import type { TvShow } from '../../server/epgService';
+import { ProgrammeImage } from './ProgrammeImage';
 
 function formatTime(iso: string) {
   return new Date(iso).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
@@ -20,11 +21,7 @@ export function ShowCard({ show, rank, compact }: Props) {
       transition={{ type: 'spring', stiffness: 320, damping: 24 }}
     >
       <div className="show-card-media">
-        {show.image ? (
-          <img src={show.image} alt="" loading="lazy" decoding="async" />
-        ) : (
-          <div className="show-card-fallback" />
-        )}
+        <ProgrammeImage src={show.image} className="show-card-img" />
         {rank != null && <span className="show-rank">#{rank}</span>}
         <span className="show-score">{show.score}</span>
       </div>

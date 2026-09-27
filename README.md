@@ -77,6 +77,8 @@ npm run deploy:cloudflare
 
 Pages → project **`ni-tonight`** → custom domain **`tonight.tgollogly.dev`**.
 
+**Auto-deploy:** add GitHub secrets `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID` — see [docs/CLOUDFLARE.md](docs/CLOUDFLARE.md). Pushes to `main` then deploy automatically.
+
 ---
 
 ## Configuration

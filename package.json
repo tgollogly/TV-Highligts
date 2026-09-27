@@ -1,0 +1,28 @@
+{
+  "name": "tv-zen-halloween-dashboard",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsx scripts/fetch-epg.ts && tsc -b && vite build",
+    "preview": "vite preview",
+    "fetch-epg": "tsx scripts/fetch-epg.ts",
+    "lint": "tsc -b --noEmit"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^5.0.9",
+    "framer-motion": "^12.6.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "@types/react": "^19.0.12",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2",
+    "vite": "^6.2.3"
+  }
+}

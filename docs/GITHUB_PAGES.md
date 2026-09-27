@@ -12,6 +12,11 @@ The workflow is already on `main`. You must turn on Pages in the repo settings:
 
 Data refreshes when the workflow runs (each push to `main`, plus the Cloudflare schedule still rebuilds the JSON in CI).
 
+## CI / Node on Actions
+
+Workflows use **Node 22** for builds and pin current action majors (`checkout@v7`, `setup-node@v7`, etc.).  
+`FORCE_JAVASCRIPT_ACTIONS_TO_NODE24` is set per [GitHub’s Node 20 deprecation notice](https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/).
+
 ## Privacy
 
 `robots.txt` and `noindex` headers are included. For stronger privacy, keep the repo private (GitHub Pro) or use Cloudflare Access on a custom domain instead of sharing the `github.io` link.

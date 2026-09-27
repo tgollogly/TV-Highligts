@@ -33,6 +33,7 @@ jobs:
           VITE_SITE_URL: https://tonight.tgollogly.dev
 
       - name: Deploy to Cloudflare Pages (ni-tonight)
+        continue-on-error: true
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}

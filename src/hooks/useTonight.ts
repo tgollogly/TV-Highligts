@@ -8,15 +8,16 @@ type Bundle = {
 };
 
 const REFRESH_MS = 15 * 60 * 1000;
+const assetBase = import.meta.env.BASE_URL;
 
 async function fetchLive(region: RegionId): Promise<TonightPayload> {
-  const res = await fetch(`/api/tonight?region=${region}`, { cache: 'no-store' });
+  const res = await fetch(`${assetBase}api/tonight?region=${region}`, { cache: 'no-store' });
   if (!res.ok) throw new Error(await res.text());
   return (await res.json()) as TonightPayload;
 }
 
 async function fetchStaticBundle(region: RegionId): Promise<TonightPayload> {
-  const res = await fetch(`/data/tonight.json?t=${Date.now()}`, { cache: 'no-store' });
+  const res = await fetch(`${assetBase}data/tonight.json?t=${Date.now()}`, { cache: 'no-store' });
   if (!res.ok) throw new Error('Static EPG bundle missing — run npm run build');
   const bundle = (await res.json()) as Bundle;
   const payload = bundle.regions[region];

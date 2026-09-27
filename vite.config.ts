@@ -28,8 +28,18 @@ function epgApiPlugin() {
 }
 
 export default defineConfig({
-  base: '/',
-  plugins: [react(), epgApiPlugin()],
+  base: process.env.VITE_BASE_PATH ?? '/',
+  plugins: [
+    react(),
+    epgApiPlugin(),
+    {
+      name: 'html-site-url',
+      transformIndexHtml(html) {
+        const siteUrl = process.env.VITE_SITE_URL ?? 'https://tonight.tgollogly.dev';
+        return html.replaceAll('https://tonight.tgollogly.dev', siteUrl.replace(/\/$/, ''));
+      },
+    },
+  ],
   build: {
     target: 'es2022',
     cssCodeSplit: true,

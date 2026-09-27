@@ -12,7 +12,7 @@
   <a href="https://tonight.tgollogly.dev"><img src="https://img.shields.io/badge/🌐_Private-tonight.tgollogly.dev-ff7a18?style=for-the-badge" alt="Subdomain" /></a>
   <img src="https://img.shields.io/github/actions/workflow/status/tgollogly/TV-Highligts/ci.yml?branch=main&style=for-the-badge&label=CI" alt="CI" />
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-a855f7?style=for-the-badge" alt="MIT License" /></a>
-  <img src="https://img.shields.io/badge/Host-Cloudflare_Pages-f38020?style=for-the-badge" alt="Cloudflare" />
+  <a href="https://tgollogly.github.io/TV-Highligts/"><img src="https://img.shields.io/badge/GitHub_Pages-live-24292f?style=for-the-badge" alt="GitHub Pages" /></a>
 </p>
 
 <p align="center">
@@ -23,24 +23,17 @@
 
 ---
 
-## Subdomain: `tonight.tgollogly.dev`
-
-| Why this name | |
-|---------------|---|
-| **Short** | Easy to type on iPhone / LG TV browser |
-| **Clear** | “What’s on **tonight**” — matches the product |
-| **Professional** | Reads like a personal service, not a dev experiment |
-| **Private** | Cloudflare-only; protect with **Access** (not GitHub Pages) |
-
-Canonical config: [`site.config.json`](site.config.json) · Cloudflare project: **`ni-tonight`**
+## Live site (GitHub Pages)
 
 | | |
 |---|---|
-| **URL** | **https://tonight.tgollogly.dev** |
-| **Share image** | https://tonight.tgollogly.dev/og-share.png |
-| **iPhone** | Safari → Share → **Add to Home Screen** (icon: “Tonight”) |
+| **URL** | **[https://tgollogly.github.io/TV-Highligts/](https://tgollogly.github.io/TV-Highligts/)** |
+| **Deploy** | Push to `main` → [Deploy GitHub Pages](.github/workflows/deploy-github-pages.yml) workflow |
+| **Setup** | Repo **Settings → Pages → Build and deployment → Source: GitHub Actions** (one-time) |
 
-Deploy: **[docs/CLOUDFLARE.md](docs/CLOUDFLARE.md)** · DNS: **[docs/DNS.md](docs/DNS.md)**
+Listings use the static `data/tonight.json` bundle on GitHub Pages (refreshed on each deploy). Live `/api/tonight` is available on optional Cloudflare hosting.
+
+Optional private URL: **`tonight.tgollogly.dev`** via [docs/CLOUDFLARE.md](docs/CLOUDFLARE.md) + Cloudflare Access.
 
 ---
 
